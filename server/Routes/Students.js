@@ -14,4 +14,16 @@ Router.get ("/", (req,res)=> {
   })
 })
 
+Router.delete ("/:id", (req,res)=>{
+  const studentID = req.params.id
+  db.query ("DELETE FROM Students WHERE StudentID = ?", [studentID], (err,result)=> {
+    if (err) {
+      console.log ("Error in Listing Students:", err)
+      res.status(500).send("error in the Query")
+    }   
+    else
+      res.send (result)
+  })
+})
+
 export default Router;
