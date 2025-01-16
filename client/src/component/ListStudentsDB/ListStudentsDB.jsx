@@ -13,7 +13,7 @@ export default function ListStudentsDB() {
       setStudents (response.data)
     }
     catch (error) {
-      console.log ("Error for fetching students")
+      console.log (error)
     }
   } 
 
@@ -22,6 +22,7 @@ export default function ListStudentsDB() {
       console.log (`http://localhost:3002/students/${studentID}`)
       const response = await axios.delete (`http://localhost:3002/students/${studentID}`)
       console.log ("Student BEING DELETED")
+      fetchStudents()
     }
     catch (error) {
       console.log (error)
@@ -33,15 +34,9 @@ export default function ListStudentsDB() {
     fetchStudents()
   }, [])
 
-  // useEffect (()=> {
-  //   console.log ("This is first Load")
-  //   handleDelete(6)
-  // }, [])
-
 
   return (
     <>
-      <h1>List students</h1>
       <Table striped bordered hover size="sm">
       <thead>
         <tr>
@@ -55,7 +50,7 @@ export default function ListStudentsDB() {
       <tbody>
        {students.map ((student,index)=> {
         return (
-          <tr>
+          <tr key={index}>
             <td>{student.StudentID}</td>
             <td>{student.FirstName}</td>
             <td>{student.LastName}</td>

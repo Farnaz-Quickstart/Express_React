@@ -14,6 +14,21 @@ Router.get ("/", (req,res)=> {
   })
 })
 
+Router.post ("/", (req,res)=> {
+  console.log ("POST Router")
+  const sql = "INSERT into students (FirstName, LastName, DateOfBirth) VALUES  (?, ?, ?)"
+  const { FirstName, LastName, DateOfBirth } = req.body; 
+  db.query (sql,[FirstName, LastName, DateOfBirth],
+    (err,result)=> {
+    if (err) {
+      console.log ("Error in ADDing Students:", err)
+      res.status(500).send("error in the Query")
+    }   
+    else
+      res.status(201).send('Student added successfully');
+  })
+})
+
 Router.delete ("/:id", (req,res)=>{
   const studentID = req.params.id
   db.query ("DELETE FROM Students WHERE StudentID = ?", [studentID], (err,result)=> {
